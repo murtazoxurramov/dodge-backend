@@ -6,7 +6,7 @@ ALLOWED_HOSTS = []
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('database_name'),
         'USERNAME': config('database_username'),
         'PASSWORD': config('database_password'),

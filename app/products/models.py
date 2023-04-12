@@ -10,6 +10,10 @@ class Category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
     def __str__(self):
         return self.name
 
@@ -36,13 +40,13 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        if not self.pk:  # if the product is being created
-            # create default product details based on category default attributes
-            for attribute, value in self.category.default_attributes.items():
-                ProductDetail.objects.create(
-                    product=self, attribute=attribute, value=value)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.pk:  # if the product is being created
+    #         # create default product details based on category default attributes
+    #         for attribute, value in self.category.default_attributes.items():
+    #             ProductDetail.objects.create(
+    #                 product=self, attribute=attribute, value=value)
+    #     super().save(*args, **kwargs)
 
     def rating(self):
         return Rating.objects.filter(product=self).aggregate(Avg('stars'))['stars__avg']

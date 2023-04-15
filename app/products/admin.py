@@ -1,12 +1,15 @@
 from django.contrib import admin
 
-from .models import Category, Brand, Product, ProductDetail, ProductImage, Review, Rating
+from .models import (Category, Brand, Product, ProductDetail,
+                     ProductImage, Review, Rating, SaveProduct, OrderProduct)
 
 
 admin.site.register(Category)
 admin.site.register(Brand)
 admin.site.register(Review)
 admin.site.register(Rating)
+admin.site.register(SaveProduct)
+admin.site.register(OrderProduct)
 
 
 class ProductImageAdmin(admin.StackedInline):

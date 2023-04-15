@@ -1,14 +1,24 @@
+from django.utils import timezone
 from django.db import models
 from django.db.models import Avg
+
+from app.users.models import User
+
+
+class CategoryManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related('product_set')
 
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(blank=True, null=True)
-    default_attributes = models.JSONField()
+    default_attributes = models.JSONField(blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = CategoryManager()
 
     class Meta:
         verbose_name = 'Category'
@@ -77,16 +87,43 @@ class ProductImage(models.Model):
         return self.product.title
 
 
+class SaveProduct(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    saved_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        verbose_name = 'Saved Product'
+        verbose_name_plural = 'Saved Products'
+        unique_together = ['user', 'product']
+
+    def __str__(self):
+        return f"{self.user.username} saved {self.product.title}"
+
+
+class OrderProduct(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    ordered_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        verbose_name = 'Ordered Product'
+        verbose_name_plural = 'Ordered Products'
+
+    def __str__(self):
+        return f"{self.user.username} ordered {self.product.title}"
+
+
 class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    author = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.author}'s review for {self.product.title} ({self.created_at})"
+        return f"{self.user.username}'s review for {self.product.title} ({self.created_at})"
 
 
 class Rating(models.Model):

@@ -3,7 +3,7 @@ from django.urls import path, include
 
 from app.products.views import (ProductViewSet, BrandViewSet, CategoryViewSet, RatingViewSet, ReviewViewSet,
                                 ProductDetailViewSet, ProductImageViewSet, SaveProductViewSet, OrderProductViewSet)
-from app.users.views import CustomTokenObtainPairView, PhoneNumberLoginView
+from app.users.views import CreateUserView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = routers.DefaultRouter()
@@ -25,9 +25,7 @@ router.register(r'order-product', OrderProductViewSet,
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('login/', PhoneNumberLoginView.as_view(), name='login'),
-    # path('api/token/', CustomTokenObtainPairView.as_view(),
-    #      name='token_obtain_pair'),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("signup", CreateUserView.as_view(), name='signup'),
+    # path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # path('token/refresh/', MyTokenRefreshView.as_view(), name='token_refresh'),
 ]

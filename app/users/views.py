@@ -3,15 +3,17 @@ from datetime import timedelta
 from django.utils import timezone
 from rest_framework import status, views
 from rest_framework.exceptions import ValidationError
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, UpdateAPIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
 from .serializers import (
     UserRegistrationSerializer,
     UserLoginSerializer,
-    UserSignInSerializer
+    UserSignInSerializer,
+    UserEditSerializer
 )
 
 
@@ -81,3 +83,12 @@ class UserLogoutView(views.APIView):
         # Delete the user's auth token to log them out.
         request.user.auth_token.delete()
         return Response({'message': 'User has been logged out.'}, status=status.HTTP_200_OK)
+
+
+class UserEditView(UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserEditSerializer
+    queryset = User.objects.all()
+
+    def get_object(self):
+        return self.request.user

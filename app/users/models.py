@@ -11,8 +11,6 @@ VIA_PHONE, VIA_EMAIL, VIA_USERNAME = (
     "via_email",
     "via_username"
 )
-PHONE_EXPIRE = 2
-EMAIL_EXPIRE = 5
 
 
 class BaseModel(models.Model):

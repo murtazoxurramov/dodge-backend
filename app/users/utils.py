@@ -62,7 +62,7 @@ def phone_checker(p_number):
 def phone_parser(p_number, c_code=None):
     try:
         phone_checker(p_number)
-        p_number = "+"+p_number
-        return phonenumbers.parse(p_numbers, c_code)
+        p_number = '+'+p_number
+        return phonenumbers.parse(p_number, c_code)
     except Exception as e:
         raise ValidationError("Phone number is not valid")

@@ -34,3 +34,26 @@ class UserLoginSerializer(TokenObtainPairSerializer):
 class UserSignInSerializer(serializers.Serializer):
     phone_number = serializers.CharField(required=True)
     code = serializers.CharField(required=True)
+
+
+class UserEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'profile_image',
+                  'phone_number', 'email', 'password']
+
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get(
+            'first_name', instance.first_name)
+        instance.last_name = validated_data.get(
+            'last_name', instance.last_name)
+        instance.profile_image = validated_data.get(
+            'profile_image', instance.profile_image)
+        instance.phone_number = validated_data.get(
+            'phone_number', instance.phone_number)
+        instance.email = validated_data.get(
+            'email', instance.email)
+        instance.password = validated_data.get(
+            'password', instance.password)
+        instance.save()
+        return instance

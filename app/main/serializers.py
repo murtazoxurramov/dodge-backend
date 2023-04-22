@@ -53,6 +53,9 @@ class MainPageSettingsSerializer(serializers.ModelSerializer):
         if banner.exists():
             return MainPageSettingsBannerSerializer(banner, many=True).data
         return []
+    
+
+
 
 
 class ContactSerializer(serializers.ModelSerializer):

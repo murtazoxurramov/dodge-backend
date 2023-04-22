@@ -1,7 +1,7 @@
 import uuid
 import random
-from datetime import datetime, timedelta
 from django.db import models
+from django.conf import settings
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import (AbstractUser, UserManager)
 
@@ -58,6 +58,11 @@ class User(AbstractUser, BaseModel):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    @property
+    def profile_image_url(self):
+        if self.profile_image:
+            return "%s%s" % (settings.HOST, self.profile_image.url)
 
     def check_username(self):
         if not self.username:

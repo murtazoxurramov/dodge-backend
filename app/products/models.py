@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from django.db.models import Avg
+from django.conf import settings
 
 from app.users.models import User
 
@@ -14,6 +15,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(blank=True, null=True)
     default_attributes = models.JSONField(blank=True)
+    icon = models.FileField(upload_to='uploads/category/icons/')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -27,6 +29,11 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def icon_url(self):
+        if self.icon:
+            return "%s%s" % (settings.HOST, self.icon.url)
+
 
 class Brand(models.Model):
     name = models.CharField(max_length=50)
@@ -37,6 +44,11 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def logo_url(self):
+        if self.logo:
+            return "%s%s" % (settings.HOST, self.logo.url)
 
 
 class Product(models.Model):
@@ -85,6 +97,11 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return self.product.title
+
+    @property
+    def image_url(self):
+        if self.image:
+            return "%s%s" % (settings.HOST, self.image.url)
 
 
 class SaveProduct(models.Model):

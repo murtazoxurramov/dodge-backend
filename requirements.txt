@@ -2,7 +2,7 @@ asgiref==3.6.0
 backports.zoneinfo==0.2.1
 certifi==2022.12.7
 charset-normalizer==3.1.0
-Django>=4.0
+Django
 django-phonenumber-field==7.0.2
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2

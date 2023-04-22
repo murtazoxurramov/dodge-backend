@@ -2,7 +2,7 @@ from decouple import config
 
 DEBUG = config('debug')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['dodge-backend.onrender.com', 'www.dodge-backend.onrender.com']
 
 DATABASES = {
     'default': {
